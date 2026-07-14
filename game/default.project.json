@@ -1,0 +1,30 @@
+{
+  "name": "QuarantineRegen-Game",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "$className": "ReplicatedStorage",
+      "Shared": { "$path": "../shared/ReplicatedStorage" },
+      "Config": { "$path": "src/ReplicatedStorage/Config" },
+      "Modules": { "$path": "src/ReplicatedStorage/Modules" },
+      "Net": { "$path": "src/ReplicatedStorage/Net" },
+      "Remotes": {
+        "$className": "Folder",
+        "RoundStateChanged": { "$className": "RemoteEvent" },
+        "TeamAssigned": { "$className": "RemoteEvent" },
+        "FireWeapon": { "$className": "RemoteEvent" },
+        "ReloadWeapon": { "$className": "RemoteEvent" },
+        "ClawAttempt": { "$className": "RemoteEvent" },
+        "SafeRoomProgress": { "$className": "RemoteEvent" }
+      }
+    },
+    "ServerScriptService": { "$path": "src/ServerScriptService" },
+    "ServerStorage": { "$path": "src/ServerStorage" },
+    "StarterPlayer": {
+      "$className": "StarterPlayer",
+      "StarterPlayerScripts": { "$path": "src/StarterPlayer/StarterPlayerScripts" },
+      "StarterCharacterScripts": { "$path": "src/StarterPlayer/StarterCharacterScripts" }
+    },
+    "StarterGui": { "$path": "src/StarterGui" }
+  }
+}

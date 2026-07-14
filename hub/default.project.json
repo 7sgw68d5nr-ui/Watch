@@ -1,0 +1,25 @@
+{
+  "name": "QuarantineRegen-Hub",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "$className": "ReplicatedStorage",
+      "Shared": { "$path": "../shared/ReplicatedStorage" },
+      "Net": { "$path": "src/ReplicatedStorage/Net" },
+      "Remotes": {
+        "$className": "Folder",
+        "RequestQueue": { "$className": "RemoteEvent" },
+        "CancelQueue": { "$className": "RemoteEvent" },
+        "PartyInvite": { "$className": "RemoteEvent" },
+        "PartyUpdate": { "$className": "RemoteEvent" },
+        "MatchFound": { "$className": "RemoteEvent" }
+      }
+    },
+    "ServerScriptService": { "$path": "src/ServerScriptService" },
+    "StarterPlayer": {
+      "$className": "StarterPlayer",
+      "StarterPlayerScripts": { "$path": "src/StarterPlayer/StarterPlayerScripts" }
+    },
+    "StarterGui": { "$path": "src/StarterGui" }
+  }
+}

@@ -14,7 +14,12 @@
         "TeamAssigned": { "$className": "RemoteEvent" },
         "FireWeapon": { "$className": "RemoteEvent" },
         "ReloadWeapon": { "$className": "RemoteEvent" },
+        "AmmoUpdated": { "$className": "RemoteEvent" },
+        "EquipWeapon": { "$className": "RemoteEvent" },
         "ClawAttempt": { "$className": "RemoteEvent" },
+        "KnifeAttack": { "$className": "RemoteEvent" },
+        "RequestSprint": { "$className": "RemoteEvent" },
+        "RequestCrouch": { "$className": "RemoteEvent" },
         "SafeRoomProgress": { "$className": "RemoteEvent" }
       }
     },

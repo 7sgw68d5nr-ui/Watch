@@ -9,8 +9,25 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local TeamConfig = require(ReplicatedStorage.Shared.Config.TeamConfig)
 local GameConfig = require(ReplicatedStorage.Shared.Config.GameConfig)
+local HumanConfig = require(ReplicatedStorage.Shared.Config.HumanConfig)
 
 local TeamManager = {}
+
+-- Lazily required to avoid a require() cycle: StaminaSystem/WeightSystem
+-- don't depend on TeamManager, but requiring them at module-load time before
+-- ServerScriptService.Systems has fully populated can be order-sensitive.
+local StaminaSystem = nil
+local WeightSystem = nil
+local RegenSystem = nil
+
+local function getMovementSystems()
+	if not StaminaSystem then
+		StaminaSystem = require(script.Parent.StaminaSystem)
+		WeightSystem = require(script.Parent.WeightSystem)
+		RegenSystem = require(script.Parent.RegenSystem)
+	end
+	return StaminaSystem, WeightSystem, RegenSystem
+end
 
 local teamInstances: { [string]: Team } = {}
 
@@ -40,6 +57,25 @@ function TeamManager.SetPlayerTeam(player: Player, teamName: string)
 	local team = ensureTeam(teamName)
 	player.Team = team
 	player.TeamColor = team.TeamColor
+
+	-- Humans get their base movement/stamina profile (re)applied every time
+	-- they're placed on the team, which covers both initial join and the
+	-- per-round reset in ResetAllToHumans. Infected profile application is
+	-- handled by InfectionSystem at the moment of conversion instead, since
+	-- it also needs to resize MaxHealth/Health, which TeamManager has no
+	-- opinion about.
+	if teamName == TeamConfig.HUMANS then
+		local Stamina, Weight, Regen = getMovementSystems()
+		Weight.SetBaseSpeed(player, HumanConfig.WALK_SPEED, HumanConfig.SPRINT_SPEED)
+		Stamina.SetProfile(player, HumanConfig.MAX_STAMINA, HumanConfig.SPRINT_DRAIN_PER_SEC, HumanConfig.STAMINA_REGEN_PER_SEC, true)
+		Regen.StopTracking(player)
+
+		local humanoid = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
+		if humanoid then
+			humanoid.MaxHealth = HumanConfig.MAX_HP
+			humanoid.Health = HumanConfig.MAX_HP
+		end
+	end
 end
 
 function TeamManager.GetPlayersOnTeam(teamName: string): { Player }
